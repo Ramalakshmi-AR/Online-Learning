@@ -1,0 +1,55 @@
+{% extends 'courses/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ course.title }}</h2>
+<p>{{ course.description }}</p>
+<p><strong>Price:</strong> 
+{% if course.price %}
+    ₹{{ course.price }}
+{% else %}
+    Free
+{% endif %}
+</p>
+
+
+{% if enrolled %}
+<h3>Modules:</h3>
+{% for module in course.modules.all %}
+  <h3>{{ module.title }}</h3>
+
+  {% for lesson in module.lessons.all %}
+    <div class="lesson-card">
+      <h4>{{ lesson.title }}</h4>
+      {% if lesson.description %}
+        <p>{{ lesson.description }}</p>
+      {% endif %}
+      {% if lesson.video %}
+        <video width="640" height="360" controls>
+          <source src="{{ lesson.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% else %}
+        <p>No video available for this lesson.</p>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endfor %}
+
+<a href="{% url 'add_feedback' course.id %}" class="btn btn-success">Add Feedback</a>
+{% else %}
+<a href="{% url 'enroll_course' course.id %}" class="btn btn-primary">Enroll Now</a>
+{% if course.price > 0 %}
+<a href="{% url 'buy_course' course.id %}" class="btn btn-success">Buy Course</a>
+{% endif %}
+{% endif %}
+
+<h3>Feedback:</h3>
+{% for feedback in course.feedback_set.all %}
+<div class="card">
+    <p><strong>{{ feedback.user.username }}:</strong> {{ feedback.comment }} ({{ feedback.rating }}/5)</p>
+</div>
+{% empty %}
+<p>No feedback yet.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'courses/base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Learning Platform</title>
+    <link rel="stylesheet" href="{% static 'courses/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-container">
+
+     
+        <div class="hero-left">
+            <h1>Smart Online Learning for Career Growth</h1>
+            <p>
+                Our Online Learning Platform delivers structured, industry-focused courses
+                through high-quality video lessons and interactive modules. Learn at your
+                own pace, track progress, and gain practical skills that align with modern
+                career demands.
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'register' %}" class="btn-primary">Start Learning</a>
+                <a href="{% url 'login' %}" class="btn-outline">Login</a>
+            </div>
+        </div>
+
+       
+        <div class="hero-right">
+            <div class="info-card">
+                <h3>📘 Expert Courses</h3>
+                <p>Professionally designed courses with structured learning paths.</p>
+            </div>
+            <div class="info-card">
+                <h3>🎥 Video Lessons</h3>
+                <p>High-quality video content with practical demonstrations.</p>
+            </div>
+            <div class="info-card">
+                <h3>📊 Progress Tracking</h3>
+                <p>Track course completion and learning performance.</p>
+            </div>
+            <div class="info-card">
+                <h3>🎓 Certification</h3>
+                <p>Earn course completion certificates to enhance your profile.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="features">
+    <h2>Why Choose Us</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>🎥 Video Learning</h3>
+            <p>High quality video lessons with real-world examples.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📈 Track Progress</h3>
+            <p>Monitor your learning progress and completion.</p>
+        </div>
+        <div class="feature-card">
+            <h3>💼 Career Focused</h3>
+            <p>Industry-relevant courses to boost your career.</p>
+        </div>
+    </div>
+</section>
+
+<!-- COURSES -->
+<section class="courses">
+    <h2>Popular Courses</h2>
+
+    <div class="course-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <h3>{{ course.title }}</h3>
+            <p>{{ course.description|truncatewords:15 }}</p>
+            <p class="price">
+                {% if course.price > 0 %}
+                    ₹{{ course.price }}
+                {% else %}
+                    Free
+                {% endif %}
+            </p>
+            <a href="{% url 'course_detail' course.id %}" class="btn-small">View Course</a>
+        </div>
+        {% empty %}
+        <p>No courses available</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps">
+    <h2>How It Works</h2>
+    <div class="step-grid">
+        <div class="step">1️⃣ Register an account</div>
+        <div class="step">2️⃣ Enroll in a course</div>
+        <div class="step">3️⃣ Learn & track progress</div>
+        <div class="step">4️⃣ Get certified</div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Online Learning Platform. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
+{% endblock %}

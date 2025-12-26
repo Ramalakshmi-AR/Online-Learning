@@ -1,0 +1,22 @@
+{% extends 'courses/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Buy {{ course.title }}</h2>
+<p>Amount: ₹{{ course.price }}</p>
+<form id="payment-form">
+<script src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="{{ razorpay_key }}"
+        data-amount="{{ order.amount }}"
+        data-currency="INR"
+        data-order_id="{{ order.id }}"
+        data-buttontext="Pay Now"
+        data-name="Online Learning"
+        data-description="Course Purchase"
+        data-prefill.name="{{ user.username }}"
+        data-prefill.email="{{ user.email }}"
+        data-theme.color="#ff6f00">
+</script>
+<input type="hidden" custom="Hidden Element" name="hidden">
+</form>
+{% endblock %}

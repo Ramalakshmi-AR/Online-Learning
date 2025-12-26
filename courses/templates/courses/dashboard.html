@@ -1,0 +1,17 @@
+{% extends 'courses/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Your Dashboard</h2>
+{% if enrollments %}
+    {% for enrollment in enrollments %}
+    <div class="card">
+        <h3>{{ enrollment.course.title }}</h3>
+        <p>Progress: {{ enrollment.progress }}%</p>
+        <a href="{% url 'course_detail' enrollment.course.id %}" class="btn btn-primary">Go to Course</a>
+    </div>
+    {% endfor %}
+{% else %}
+<p>You have not enrolled in any courses yet.</p>
+{% endif %}
+{% endblock %}
