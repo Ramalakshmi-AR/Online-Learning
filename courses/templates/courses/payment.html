@@ -2,21 +2,99 @@
 {% load static %}
 
 {% block content %}
-<h2>Buy {{ course.title }}</h2>
-<p>Amount: ₹{{ course.price }}</p>
-<form id="payment-form">
-<script src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="{{ razorpay_key }}"
-        data-amount="{{ order.amount }}"
-        data-currency="INR"
-        data-order_id="{{ order.id }}"
-        data-buttontext="Pay Now"
-        data-name="Online Learning"
-        data-description="Course Purchase"
-        data-prefill.name="{{ user.username }}"
-        data-prefill.email="{{ user.email }}"
-        data-theme.color="#ff6f00">
-</script>
-<input type="hidden" custom="Hidden Element" name="hidden">
-</form>
+
+<style>
+/* Payment Page Container */
+.payment-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    text-align: center;
+}
+
+/* Title */
+.payment-container h2 {
+    color: #ff6600;
+    margin-bottom: 15px;
+}
+
+/* Amount Box */
+.amount-box {
+    background-color: #f4f8ff;
+    border-left: 5px solid #0099ff;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Razorpay Button Styling */
+.razorpay-payment-button {
+    background-color: #ff6600 !important;
+    color: white !important;
+    padding: 14px 25px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    border-radius: 10px !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25) !important;
+    transition: all 0.3s ease !important;
+}
+
+.razorpay-payment-button:hover {
+    background-color: #0099ff !important;
+    transform: translateY(-2px);
+}
+
+/* Secure Text */
+.secure-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .payment-container {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+}
+</style>
+
+<div class="payment-container">
+    <h2>Buy {{ course.title }}</h2>
+
+    <div class="amount-box">
+        Amount to Pay: ₹{{ course.price }}
+    </div>
+
+    <form id="payment-form">
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_key }}"
+            data-amount="{{ order.amount }}"
+            data-currency="INR"
+            data-order_id="{{ order.id }}"
+            data-buttontext="Pay Securely"
+            data-name="Online Learning"
+            data-description="Course Purchase"
+            data-prefill.name="{{ user.username }}"
+            data-prefill.email="{{ user.email }}"
+            data-theme.color="#ff6600">
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+
+    <p class="secure-text">
+        🔒 100% Secure Payment powered by Razorpay
+    </p>
+</div>
+
 {% endblock %}

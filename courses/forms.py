@@ -8,6 +8,8 @@ class UserRegisterForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
+
+
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback

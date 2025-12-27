@@ -1,0 +1,96 @@
+{% extends 'courses/base.html' %}
+
+{% block content %}
+
+<style>
+
+.success-container {
+    max-width: 500px;
+    margin: 80px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+
+.success-container h2 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+
+.success-container p {
+    font-size: 1.1rem;
+    color: #444;
+}
+
+
+.home-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 14px 25px;
+    background-color: #ff6600;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background-color: #0099ff;
+    transform: translateY(-2px);
+}
+
+
+.redirect-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+
+@media (max-width: 600px) {
+    .success-container {
+        margin: 40px 15px;
+        padding: 30px;
+    }
+}
+</style>
+
+<div class="success-container">
+    <div class="success-icon">✅</div>
+
+    <h2>Payment Successful!</h2>
+    <p>
+        Thank you for enrolling.<br>
+        Your payment has been completed successfully.
+    </p>
+
+    <a href="{% url 'home' %}" class="home-btn">
+        Go to Home
+    </a>
+
+    <p class="redirect-text">
+        You will be redirected to the home page shortly...
+    </p>
+</div>
+
+
+<script>
+    setTimeout(function () {
+        window.location.href = "{% url 'home' %}";
+    }, 5000);
+</script>
+
+{% endblock %}

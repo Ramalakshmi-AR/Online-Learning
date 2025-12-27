@@ -1,11 +1,76 @@
 {% extends 'courses/base.html' %}
-{% load static %}
 
 {% block content %}
-<h2>Add Feedback for {{ course.title }}</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Submit Feedback</button>
-</form>
+<style>
+.feedback-wrapper {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback-card {
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.feedback-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6f00;
+}
+
+.feedback-card form p {
+    margin-bottom: 12px;
+}
+
+.feedback-card input,
+.feedback-card textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.feedback-card input:focus,
+.feedback-card textarea:focus {
+    outline: none;
+    border-color: #ff6f00;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: #ff6f00;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #e65100;
+}
+</style>
+
+<div class="feedback-wrapper">
+    <div class="feedback-card">
+        <h2>Add Feedback for {{ course.title }}</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">
+                Submit Feedback
+            </button>
+        </form>
+    </div>
+</div>
 {% endblock %}

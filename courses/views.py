@@ -73,40 +73,66 @@ def enroll_course(request, course_id):
     messages.success(request, "Enrolled Successfully!")
     return redirect('course_detail', course_id=course.id)
 
-# Feedback
 @login_required
 def add_feedback(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+
+    # prevent duplicate feedback
+    feedback = Feedback.objects.filter(course=course, user=request.user).first()
+
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
+        form = FeedbackForm(request.POST, instance=feedback)
         if form.is_valid():
             feedback = form.save(commit=False)
-            feedback.user = request.user
             feedback.course = course
+            feedback.user = request.user
             feedback.save()
-            messages.success(request, "Feedback submitted!")
-            return redirect('course_detail', course_id=course.id)
+            messages.success(request, "✅ Feedback submitted successfully")
+            return redirect('course_detail', course.id)
     else:
-        form = FeedbackForm()
-    return render(request, 'courses/feedback.html', {'form': form, 'course': course})
+        form = FeedbackForm(instance=feedback)
+
+    return render(request, 'courses/feedback.html', {
+        'form': form,
+        'course': course
+    })
 
 @login_required
 def buy_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    
-    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-    order_amount = int(course.price * 100) 
-    order_currency = 'INR'
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
 
-    try:
-        razorpay_order = client.order.create(dict(amount=order_amount, currency=order_currency, payment_capture=1))
-    except razorpay.errors.BadRequestError:
-        return render(request, 'courses/payment_failed.html', {'message': 'Authentication failed with Razorpay. Check your keys.'})
+    order = client.order.create({
+        "amount": int(course.price * 100),  # rupees → paise
+        "currency": "INR",
+        "payment_capture": "1"
+    })
 
     context = {
-        'course': course,
-        'order': razorpay_order,
-        'razorpay_key': settings.RAZORPAY_KEY_ID
+        "course": course,
+        "order": order,
+        "razorpay_key": settings.RAZORPAY_KEY_ID
     }
-    return render(request, 'courses/payment.html', context)
+
+    return render(request, "courses/payment.html", context)
+
+
+@login_required
+def payment_success(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    # Auto-enroll user (safe from duplicates)
+    enrollment, created = Enrollment.objects.get_or_create(
+        user=request.user,
+        course=course
+    )
+
+    if created:
+        messages.success(request, "🎉 Payment successful! You are now enrolled.")
+    else:
+        messages.info(request, "You are already enrolled in this course.")
+
+    return redirect('dashboard')

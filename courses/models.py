@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    price = models.FloatField(default=0.0)  # 0 for free courses
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -69,17 +69,15 @@ class Enrollment(models.Model):
 # Feedback Model
 # ------------------------
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedbacks')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='feedbacks')
-    rating = models.IntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)  # ✅ FIX
 
     def __str__(self):
-        return f"{self.user.username} - {self.course.title} ({self.rating}/5)"
+        return f"{self.user.username} - {self.course.title}"
+
 
 
 # ------------------------

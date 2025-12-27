@@ -2,16 +2,114 @@
 {% load static %}
 
 {% block content %}
-<h2>Your Dashboard</h2>
+
+<style>
+/* Dashboard Title */
+.dashboard-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #ff6600;
+    text-align: center;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Course Card */
+.card {
+    background: white;
+    width: 280px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Progress Badge */
+.progress {
+    background-color: #e3f2fd;
+    color: #0099ff;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 6px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Button */
+.btn-primary {
+    text-decoration: none;
+    background-color: #ff6600;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0099ff;
+    transform: scale(1.03);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+}
+</style>
+
+<h2 class="dashboard-title">Your Dashboard</h2>
+
 {% if enrollments %}
+<div class="dashboard-grid">
     {% for enrollment in enrollments %}
     <div class="card">
-        <h3>{{ enrollment.course.title }}</h3>
-        <p>Progress: {{ enrollment.progress }}%</p>
-        <a href="{% url 'course_detail' enrollment.course.id %}" class="btn btn-primary">Go to Course</a>
+        <div>
+            <h3>{{ enrollment.course.title }}</h3>
+            <div class="progress">
+                Progress: {{ enrollment.progress }}%
+            </div>
+        </div>
+        <a href="{% url 'course_detail' enrollment.course.id %}" class="btn-primary">
+            Go to Course
+        </a>
     </div>
     {% endfor %}
+</div>
 {% else %}
-<p>You have not enrolled in any courses yet.</p>
+<p class="empty-state">
+    You have not enrolled in any courses yet.
+</p>
 {% endif %}
+
 {% endblock %}

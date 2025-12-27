@@ -1,13 +1,101 @@
 {% extends 'courses/base.html' %}
-{% load static %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
-<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+<style>
+.login-wrapper {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0d47a1; /* blue */
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card input {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: #ff6f00;
+}
+
+.login-btn {
+    padding: 12px;
+    background: #ff6f00;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.login-btn:hover {
+    background: #e65100;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: #0d47a1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 20px;
+    }
+}
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2>Login</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <div class="login-footer">
+            Don’t have an account?
+            <a href="{% url 'register' %}">Register here</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

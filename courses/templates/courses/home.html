@@ -2,20 +2,215 @@
 {% load static %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Online Learning Platform</title>
-    <link rel="stylesheet" href="{% static 'courses/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-</head>
-<body>
+
+<style>
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #ff6600, #0099ff);
+    color: white;
+    padding: 60px 20px;
+}
+
+.hero-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    gap: 20px;
+}
+
+.hero-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.hero-left h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-left p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.hero-buttons a {
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.hero-buttons a.btn-primary {
+    background-color: #ff6600;
+    color: white;
+}
+
+.hero-buttons a.btn-primary:hover {
+    background-color: #e65c00;
+}
+
+.hero-buttons a.btn-outline {
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+}
+
+.hero-buttons a.btn-outline:hover {
+    background-color: white;
+    color: #0099ff;
+}
+
+/* Hero Right Info Cards */
+.hero-right {
+    flex: 1;
+    min-width: 300px;
+    display: grid;
+    gap: 20px;
+}
+
+.info-card {
+    background: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* Features Section */
+.features {
+    padding: 60px 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #ff6600;
+}
+
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.feature-card {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* Courses Section */
+.courses {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.courses h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #ff6600;
+}
+
+.course-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.course-card {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-card h3 {
+    margin-bottom: 15px;
+}
+
+.course-card p.price {
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.course-card a {
+    text-decoration: none;
+    background-color: #ff6600;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.course-card a:hover {
+    background-color: #e65c00;
+}
+
+/* Steps Section */
+.steps {
+    padding: 60px 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.steps h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #ff6600;
+}
+
+.step-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.step {
+    flex: 1;
+    min-width: 150px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+</style>
 
 <section class="hero">
     <div class="hero-container">
-
-     
         <div class="hero-left">
             <h1>Smart Online Learning for Career Growth</h1>
             <p>
@@ -30,7 +225,6 @@
             </div>
         </div>
 
-       
         <div class="hero-right">
             <div class="info-card">
                 <h3>📘 Expert Courses</h3>
@@ -49,10 +243,8 @@
                 <p>Earn course completion certificates to enhance your profile.</p>
             </div>
         </div>
-
     </div>
 </section>
-
 
 <section class="features">
     <h2>Why Choose Us</h2>
@@ -72,23 +264,34 @@
     </div>
 </section>
 
-<!-- COURSES -->
 <section class="courses">
     <h2>Popular Courses</h2>
-
     <div class="course-grid">
         {% for course in courses %}
         <div class="course-card">
             <h3>{{ course.title }}</h3>
             <p>{{ course.description|truncatewords:15 }}</p>
             <p class="price">
-                {% if course.price > 0 %}
-                    ₹{{ course.price }}
-                {% else %}
-                    Free
-                {% endif %}
+                {% if course.price and course.price > 0 %} ₹{{ course.price }} {% else %} Free {% endif %}
             </p>
-            <a href="{% url 'course_detail' course.id %}" class="btn-small">View Course</a>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <!-- Buy / Enroll Button -->
+                {% if user.is_authenticated %}
+                    {% if course.price and course.price > 0 %}
+                        <a href="{% url 'buy_course' course.id %}" class="btn-success">Buy Course</a>
+                    {% else %}
+                        <a href="{% url 'enroll_course' course.id %}" class="btn-primary">Enroll Now</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}?next={% url 'course_detail' course.id %}" class="btn-primary">
+                        Login to Enroll
+                    </a>
+                {% endif %}
+
+                <!-- View Course Button -->
+                <a href="{% url 'course_detail' course.id %}" class="btn-primary">View Course</a>
+            </div>
         </div>
         {% empty %}
         <p>No courses available</p>
@@ -96,19 +299,5 @@
     </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="steps">
-    <h2>How It Works</h2>
-    <div class="step-grid">
-        <div class="step">1️⃣ Register an account</div>
-        <div class="step">2️⃣ Enroll in a course</div>
-        <div class="step">3️⃣ Learn & track progress</div>
-        <div class="step">4️⃣ Get certified</div>
-    </div>
-</section>
 
-
-
-</body>
-</html>
 {% endblock %}

@@ -23,12 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-6%lo6=rns^77gj+c0j75=ji6-k^5=vi+!ot$(4e35(t!&x4qu0'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')  
+# DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
+
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 ALLOWED_HOSTS = ['*']
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'online_learning.wsgi.application'
+
 
 
 # Database
@@ -124,22 +125,25 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# RAZORPAY_KEY_ID = 'rzp_test_RgQ7aqPF3uAVyp'
-# RAZORPAY_KEY_SECRET = '5Ktz63WjFVnzVBfhAXgNWCHR'
+RAZORPAY_KEY_ID = 'rzp_test_RgQ7aqPF3uAVyp'
+RAZORPAY_KEY_SECRET = '5Ktz63WjFVnzVBfhAXgNWCHR'
 
 
 
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+# RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+# RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
 
 LOGIN_URL = 'login'      
 LOGIN_REDIRECT_URL = 'dashboard' 
 LOGOUT_REDIRECT_URL = 'home'      
+
+
+WSGI_APPLICATION = 'online_learning.wsgi.application'
