@@ -222,8 +222,6 @@
             <div class="hero-buttons">
                 <a href="{% url 'register' %}" class="btn-primary">Start Learning</a>
                 <a href="{% url 'login' %}" class="btn-outline">Login</a>
-                
-
             </div>
         </div>
 
@@ -269,51 +267,34 @@
 <section class="courses">
     <h2>Popular Courses</h2>
     <div class="course-grid">
-        <!-- Course Card 1 -->
+        {% for course in courses %}
         <div class="course-card">
-            <h3>Python for Beginners</h3>
-            <p>Learn Python from scratch, including basics of programming, variables, data types, loops, and functions.</p>
-            <p class="price">₹499</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{% url 'buy_course' 1 %}" class="btn-success">Buy Course</a>
-                <a href="{% url 'course_detail' 1 %}" class="btn-primary">View Course</a>
-            </div>
-        </div>
+            <h3>{{ course.title }}</h3>
+            <p>{{ course.description|truncatewords:15 }}</p>
+            <p class="price">
+                {% if course.price and course.price > 0 %} ₹{{ course.price }} {% else %} Free {% endif %}
+            </p>
 
-        <!-- Course Card 2 -->
-        <div class="course-card">
-            <h3>Web Development Bootcamp</h3>
-            <p>Master HTML, CSS, JavaScript, and build responsive websites with practical projects.</p>
-            <p class="price">₹799</p>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{% url 'buy_course' 2 %}" class="btn-success">Buy Course</a>
-                <a href="{% url 'course_detail' 2 %}" class="btn-primary">View Course</a>
+                {% if user.is_authenticated %}
+                    {% if course.id in enrolled_course_ids %}
+                        <a href="{% url 'course_detail' course.id %}" class="btn-primary">Continue Course</a>
+                    {% else %}
+                        <!-- All courses (free or paid) go to buy_course -->
+                        <a href="{% url 'buy_course' course.id %}" class="btn-success">Buy Course</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}?next={% url 'course_detail' course.id %}" class="btn-primary">Login to Enroll</a>
+                {% endif %}
+                <a href="{% url 'course_detail' course.id %}" class="btn-primary">View Course</a>
             </div>
         </div>
-
-        <!-- Course Card 3 -->
-        <div class="course-card">
-            <h3>Data Science with Python</h3>
-            <p>Learn data analysis, visualization, and machine learning using Python and popular libraries like Pandas and Matplotlib.</p>
-            <p class="price">₹999</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{% url 'buy_course' 3 %}" class="btn-success">Buy Course</a>
-                <a href="{% url 'course_detail' 3 %}" class="btn-primary">View Course</a>
-            </div>
-        </div>
-
-        <!-- Course Card 4 -->
-        <div class="course-card">
-            <h3>Free HTML Basics</h3>
-            <p>Learn the fundamentals of HTML and create your first web pages without spending a penny.</p>
-            <p class="price">Free</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{% url 'enroll_course' 4 %}" class="btn-primary">Enroll Now</a>
-                <a href="{% url 'course_detail' 4 %}" class="btn-primary">View Course</a>
-            </div>
-        </div>
+        {% empty %}
+        <p>No courses available</p>
+        {% endfor %}
     </div>
 </section>
+
 
 
 <!-- <section class="courses">
